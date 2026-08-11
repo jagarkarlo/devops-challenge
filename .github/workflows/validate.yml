@@ -1,0 +1,53 @@
+name: Validate Infrastructure
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform (${{ matrix.stack }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        stack:
+          - terraform/vm
+          - terraform/aks
+    defaults:
+      run:
+        working-directory: ${{ matrix.stack }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false
+      - run: terraform validate
+
+  kubernetes:
+    name: Kubernetes manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install PyYAML
+      - run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          manifests = sorted(Path("k8s").glob("*.yaml"))
+          assert manifests, "No Kubernetes manifests found"
+          for path in manifests:
+              document = yaml.safe_load(path.read_text())
+              assert document["apiVersion"]
+              assert document["kind"]
+              assert document["metadata"]["name"]
+          PY
