@@ -101,6 +101,7 @@ flowchart LR
 | Compute | Azure Linux VM and Azure Kubernetes Service |
 | Containers | Docker and nginx Alpine, unprivileged on port 8080 |
 | Kubernetes networking | Azure CNI, Cilium, Traefik, ClusterIP Service |
+| Workload reliability | HTTP readiness/liveness probes and CPU/memory requests and limits |
 | Configuration | Kubernetes manifests and Terraform variables |
 
 ---
