@@ -99,7 +99,7 @@ flowchart LR
 | Cloud | Microsoft Azure |
 | Infrastructure | Terraform and AzureRM provider |
 | Compute | Azure Linux VM and Azure Kubernetes Service |
-| Containers | Docker and nginx Alpine |
+| Containers | Docker and nginx Alpine, unprivileged on port 8080 |
 | Kubernetes networking | Azure CNI, Cilium, Traefik, ClusterIP Service |
 | Configuration | Kubernetes manifests and Terraform variables |
 
@@ -227,7 +227,7 @@ Docker Hub: [hub.docker.com/r/karlojagar/moj-nginx](https://hub.docker.com/r/kar
 ### Running on the VM
 
 ```bash
-docker run -d -p 80:80 --restart always --name moj-nginx karlojagar/moj-nginx:v1
+docker run -d -p 80:8080 --restart always --name moj-nginx karlojagar/moj-nginx:v1
 ```
 
 The `--restart always` flag ensures the container starts automatically on VM reboot.
@@ -299,7 +299,7 @@ spec:
       - name: moj-nginx
         image: karlojagar/moj-nginx:v1
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 ```
 
 ```yaml
@@ -313,7 +313,7 @@ spec:
     app: moj-nginx
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 8080
   type: ClusterIP
 ```
 
@@ -473,7 +473,7 @@ cd devops-challenge
 
 # Build and run with Docker
 docker build -t moj-nginx .
-docker run -d -p 8080:80 moj-nginx
+docker run -d -p 8080:8080 moj-nginx
 # Open http://localhost:8080
 
 # Deploy to Kubernetes locally with minikube
