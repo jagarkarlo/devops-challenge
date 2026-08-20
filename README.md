@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Microsoft_Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Microsoft Azure">
   <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/License-MIT-2EA44F?style=for-the-badge" alt="MIT License">
+  <img src="https://img.shields.io/badge/License-MIT-3FB950?style=for-the-badge" alt="License">
 </p>
 
 **Reproducible Azure infrastructure and container delivery across a standalone Linux VM and Azure Kubernetes Service (AKS).** The project packages a custom nginx application as a Docker image, provisions both Azure environments with Terraform, and exposes the AKS workload through Traefik Ingress.
